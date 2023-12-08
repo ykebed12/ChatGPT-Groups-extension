@@ -1,0 +1,27 @@
+/* Add CSS styles for the sidebar */
+#sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+}
+
+/* Style the folder list */
+#folder-list {
+    padding: 20px;
+}
+
+/* Style the "New Folder" button */
+#new-folder-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
