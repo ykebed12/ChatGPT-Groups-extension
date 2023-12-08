@@ -7,6 +7,26 @@ getAllFolders(callback) - get all folders that were created before
 
 */
 
+const style = document.createElement('style');
+style.textContent = `
+  .new-group-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+  }
+
+  .new-group-btn:hover {
+    background-color: #555; /* Background color on hover */
+  }
+`;
+document.head.appendChild(style);
+
 function createFolder(folderName, callback) {
     chrome.storage.local.get({folders: {}}, function(data) {
         // Check if the folder already exists
@@ -104,6 +124,15 @@ closeButton.onclick = function() {
         openButton.style.display = 'block';
     }, 500); // 500ms to match your transition duration
 };
+// New Group button
+const newGroupButton = document.createElement('button');
+newGroupButton.innerHTML = '+ New Group'; // Using innerHTML to include the plus icon
+newGroupButton.className = 'new-group-btn';
+newGroupButton.onclick = function() {
+    // Implement your function here
+    console.log('New Group button clicked');
+};
+buttonDiv.appendChild(newGroupButton);
 buttonDiv.appendChild(closeButton)
 sidebar.appendChild(buttonDiv);
 
