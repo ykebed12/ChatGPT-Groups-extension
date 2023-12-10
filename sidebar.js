@@ -24,6 +24,42 @@ style.textContent = `
   .new-group-btn:hover {
     background-color: #555; /* Background color on hover */
   }
+
+  #open-sidebar-btn {
+    display: none;
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    z-index: 1001;
+  }
+
+  #close-sidebar-btn {
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  #close-sidebar-btn:hover {
+    background-color: #555; /* Background color on hover */
+  }
+
+  #mySidebar {
+    position: fixed;
+    top: 0; 
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: black;
+    overflow-y: auto;
+    z-index: 1000;
+    border-left: 1px solid #ccc;
+    padding: 10px;
+    transition: right 0.5s;
+  }
+
 `;
 document.head.appendChild(style);
 
@@ -104,16 +140,12 @@ const sidebar = document.createElement('div');
 const buttonDiv = document.createElement('div');
 const groupsDiv = document.createElement('div');
 sidebar.id = 'mySidebar';
-sidebar.style.cssText = 'position: fixed; top: 0; right: -300px; width: 300px; height: 100%; background-color: black; overflow-y: auto; z-index: 1000; border-left: 1px solid #ccc; padding: 10px; transition: right 0.5s;';
 
 // Close button
 const closeButton = document.createElement('button');
-closeButton.textContent = 'Close';
-closeButton.style.cssText = 'position: absolute; top: 10px; left: 10px;';
+closeButton.textContent = 'X';
+closeButton.id = 'close-sidebar-btn'
 closeButton.onclick = function() {
-    // sidebar.style.display = 'none';
-    // openButton.style.display = 'block';
-    // sidebar.style.right = '-300px'; // Hide sidebar
 
     // Start the transition by changing the position
     sidebar.style.right = '-300px'; // Start hiding the sidebar
@@ -124,6 +156,7 @@ closeButton.onclick = function() {
         openButton.style.display = 'block';
     }, 500); // 500ms to match your transition duration
 };
+
 // New Group button
 const newGroupButton = document.createElement('button');
 newGroupButton.innerHTML = '+ New Group'; // Using innerHTML to include the plus icon
@@ -150,13 +183,9 @@ document.body.appendChild(sidebar);
 // Floating button to open the sidebar
 const openButton = document.createElement('button');
 openButton.textContent = 'Open Sidebar';
-openButton.id = 'openSidebar';
-openButton.style.cssText = 'display: none; position: fixed; top: 50%; right: 10px; z-index: 1001;';
+openButton.id = 'open-sidebar-btn';
 openButton.style.display = 'block';
 openButton.onclick = function() {
-    // document.getElementById('mySidebar').style.display = 'block';
-    // openButton.style.display = 'none';
-    // sidebar.style.right = '0';
 
     const sidebar = document.getElementById('mySidebar');
     sidebar.style.display = 'block'; // First, make the sidebar visible
@@ -170,9 +199,6 @@ openButton.onclick = function() {
     openButton.style.display = 'none';
 };
 document.body.appendChild(openButton);
-
-
-// createSidebar(['it1', 'it2', 'itiaofidosapkf'])
 
 
 
