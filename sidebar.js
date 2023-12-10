@@ -60,6 +60,32 @@ style.textContent = `
     transition: right 0.5s;
   }
 
+    /* Style the buttons that are used to open and close the accordion panel */
+    .group-items {
+        background-color: grey;
+        
+        color: white;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+    }
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .active, .group-items:hover {
+        background-color: #ccc;
+    }
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }
 `;
 document.head.appendChild(style);
 
@@ -172,9 +198,11 @@ sidebar.appendChild(buttonDiv);
 const ul = document.createElement('ul');
 ul.style.cssText = 'margin-top: 40px;'; // Add margin to avoid overlap with the close button
 items.forEach(item => {
-    const li = document.createElement('li');
-    li.textContent = item;
-    ul.appendChild(li);
+    
+    const accordionBtn = document.createElement('button');
+    accordionBtn.textContent = item;
+    accordionBtn.className = 'group-items'
+    ul.appendChild(accordionBtn);
 });
 groupsDiv.appendChild(ul)
 sidebar.appendChild(groupsDiv);
