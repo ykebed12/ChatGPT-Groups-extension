@@ -25,3 +25,93 @@
     border: none;
     cursor: pointer;
 }
+
+.new-group-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for background color */
+}
+
+.new-group-btn:hover {
+    background-color: #555; /* Background color on hover */
+}
+
+#open-sidebar-btn {
+    display: none;
+    position: fixed;
+    top: 50%;
+    right: 10px;
+    z-index: 1001;
+}
+
+#close-sidebar-btn {
+    background-color: #333;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#close-sidebar-btn:hover {
+    background-color: #555; /* Background color on hover */
+}
+
+#mySidebar {
+    position: fixed;
+    top: 0; 
+    right: -300px;
+    width: 300px;
+    height: 100%;
+    background-color: black;
+    overflow-y: auto;
+    z-index: 1000;
+    border-left: 1px solid #ccc;
+    padding: 10px;
+    transition: right 0.5s;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.group-items {
+    background-color: grey;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    text-align: left;
+    border: none;
+    outline: none;
+    transition: 0.4s;
+    margin: 5px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .group-items:hover {
+    background-color: #ccc;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    display: none;
+    overflow: hidden;
+}
+
+.group-items:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: #777;
+    float: right;
+    margin-left: 5px;
+}
+  
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
