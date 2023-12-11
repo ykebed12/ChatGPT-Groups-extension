@@ -1,85 +1,13 @@
 console.log("Starting chatGPT edit")
-/*
-createFolder(folderName, callback) - creates folder in system
-saveLinkInFolder(link, folderName, callback) - saves link into the folder, into the system
-getLinksFromFolder(folderName, callback) - get all links from folder
-getAllFolders(callback) - get all folders that were created before
 
-*/
-
-function createFolder(folderName, callback) {
-    chrome.storage.local.get({folders: {}}, function(data) {
-        // Check if the folder already exists
-        if (data.folders[folderName]) {
-            console.error("Folder already exists");
-            return;
-        }
-
-        // Add the new folder to the 'folders' object
-        data.folders[folderName] = [];
-
-        // Save the updated object back to storage
-        chrome.storage.local.set({folders: data.folders}, function() {
-            if (chrome.runtime.lastError) {
-                console.error("Error creating folder:", chrome.runtime.lastError);
-            } else {
-                console.log("Folder created successfully");
-                if (callback) callback();
-            }
-        });
-    });
-}
-
-
-function saveLinkInFolder(link, folderName, callback) {
-    chrome.storage.local.get({folders: {}}, function(data) {
-        // Check if the folder exists
-        if (!data.folders[folderName]) {
-            console.error("Folder does not exist");
-            return;
-        }
-
-        // Add the link to the folder
-        data.folders[folderName].push(link);
-
-        // Save the updated object back to storage
-        chrome.storage.local.set({folders: data.folders}, function() {
-            if (chrome.runtime.lastError) {
-                console.error("Error saving link:", chrome.runtime.lastError);
-            } else {
-                console.log("Link saved successfully");
-                if (callback) callback();
-            }
-        });
-    });
-}
-
-function getLinksFromFolder(folderName, callback) {
-    chrome.storage.local.get({folders: {}}, function(data) {
-        // Check if the folder exists
-        if (!data.folders[folderName]) {
-            console.error("Folder does not exist");
-            callback([]);  // Return an empty array if folder doesn't exist
-            return;
-        }
-
-        // Return the links in the folder
-        callback(data.folders[folderName]);
-    });
-}
-
-function getAllFolders(callback) {
-    chrome.storage.local.get({folders: {}}, function(data) {
-        // Get all folder names (keys of the 'folders' object)
-        const folderNames = Object.keys(data.folders);
-
-        // Return the folder names through the callback
-        callback(folderNames);
-    });
-}
 
 // This function will create and append the sidebar to the document body
-const items = ['item1', 'item2', 'item43']
+let items = {
+    'group1': [('item1', 'http'), ('item2', 'http')],
+    'group4': [],
+    'group2': [('item1', 'http'), ('item2', 'http')],
+    'group3': []
+}
 const sidebar = document.createElement('div');
 const buttonDiv = document.createElement('div');
 const groupsDiv = document.createElement('div');
@@ -106,7 +34,7 @@ const newGroupButton = document.createElement('button');
 newGroupButton.innerHTML = '+ New Group'; // Using innerHTML to include the plus icon
 newGroupButton.className = 'new-group-btn';
 newGroupButton.onclick = function() {
-    // Implement your function here
+    // TODO: Implement your function here
     console.log('New Group button clicked');
 };
 buttonDiv.appendChild(newGroupButton);
@@ -115,13 +43,46 @@ sidebar.appendChild(buttonDiv);
 
 const ul = document.createElement('ul');
 ul.style.cssText = 'margin-top: 40px;'; // Add margin to avoid overlap with the close button
-items.forEach(item => {
-    
+for (const item in items) {
     const accordionBtn = document.createElement('button');
+    // add a delete/edit button for the group (ask "are you sure you want to delete group X")
     accordionBtn.textContent = item;
     accordionBtn.className = 'group-items'
+    accordionBtn.addEventListener("click", function() {
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+            panel.style.maxHeight = null;
+        } else {
+            panel.style.maxHeight = panel.scrollHeight + "px";
+        }
+    });
+
+    const linksPanel = document.createElement('div');
+    linksPanel.id = 'links-panel';
+    // linksPanel.className = 'panel'
+
+    const linksUl = document.createElement('ul');
+
+    // Bookmark is a tuple (bookmarkName, link)
+    for (const bookmark in items[item]) {
+        const [bookmarkName, bookmarkLink] = bookmark
+        const li = document.createElement('li');
+        li.className = 'link-list-item'
+
+        const textNode = document.createElement('button');
+        textNode.textContent = bookmarkName;
+
+        li.appendChild(textNode)
+        linksUl.append(li)
+
+        
+    }
+    linksPanel.append(linksUl)
+
     ul.appendChild(accordionBtn);
-});
+    ul.appendChild(linksPanel)
+};
 groupsDiv.appendChild(ul)
 sidebar.appendChild(groupsDiv);
 document.body.appendChild(sidebar);
